@@ -3,9 +3,31 @@ __pycache__/
 .env
 venv/
 env/
+
+# Training data - kept locally, not pushed
 dataset/
 dataset_resized/
+raw/
+
+# Large zip file
 *.zip
-report*.pdf
+
+# Generated outputs - kept locally, not pushed
+report_final.pdf
 ASSIGNMENT.pdf
-temp_screenshot.jpg
+final_demo_screenshot.png
+_temp_screenshot.jpg
+temp_rgb_screenshot.jpg
+
+# Development/utility scripts - not needed on Streamlit Cloud
+generate_pdf.py
+eval.py
+collect_data.py
+capture_demo.py
+take_screenshot.py
+
+# Old Flask demo - replaced by Streamlit
+demo_web/
+
+# Docker - not needed for Streamlit Cloud
+Dockerfile
