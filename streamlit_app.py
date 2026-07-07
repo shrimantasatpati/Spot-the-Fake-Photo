@@ -146,7 +146,7 @@ with tab_upload:
     )
     if uploaded:
         image = Image.open(io.BytesIO(uploaded.read()))
-        st.image(image, caption="Uploaded image", use_container_width=True)
+        st.image(image, caption="Uploaded image", use_column_width=True)
         with st.spinner("Analyzing…"):
             label, confidence, latency_ms = predict(image)
         show_result(label, confidence, latency_ms)
