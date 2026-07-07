@@ -1,4 +1,12 @@
-# Spot the Fake Photo
+<div align="center">
+  <img src="github_hero_banner.png" alt="Spot the Fake Photo Banner" width="100%" style="border-radius: 12px;">
+  <br><br>
+  <h1>Spot the Fake Photo 🔍</h1>
+  <p><b>A lightweight Computer Vision model that instantly detects whether a picture is a genuine photo of a real object, or a "recapture"—a photo taken of another screen (like a laptop or phone) displaying an image.</b></p>
+  <p>Built with PyTorch using MobileNetV3-Small for lightning-fast, edge-capable inference.</p>
+</div>
+
+---
 
 > Given one image, decide whether it is a **REAL photo** or a **PHOTO OF A SCREEN** (a "recapture").
 
