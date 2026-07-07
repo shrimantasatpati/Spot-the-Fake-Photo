@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="github_hero_banner.png" alt="Spot the Fake Photo Banner" width="100%" style="border-radius: 12px;">
+  <img src="github_hero_banner.png" alt="Spot the Fake Photo Banner" width="600" style="max-width: 100%; border-radius: 12px;">
   <br><br>
   <h1>Spot the Fake Photo 🔍</h1>
   <p><b>A lightweight Computer Vision model that instantly detects whether a picture is a genuine photo of a real object, or a "recapture"—a photo taken of another screen (like a laptop or phone) displaying an image.</b></p>

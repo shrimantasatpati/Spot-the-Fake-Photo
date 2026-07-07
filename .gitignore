@@ -4,8 +4,7 @@ __pycache__/
 venv/
 env/
 
-# Training data - kept locally, not pushed
-dataset/
+# Training data
 dataset_resized/
 raw/
 
@@ -13,7 +12,6 @@ raw/
 *.zip
 
 # Generated outputs - kept locally, not pushed
-report_final.pdf
 ASSIGNMENT.pdf
 final_demo_screenshot.png
 _temp_screenshot.jpg
