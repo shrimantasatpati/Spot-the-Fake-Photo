@@ -1,7 +1,5 @@
 # Spot the Fake Photo
 
-**Salescode.ai Computer Vision Take-Home Assignment**
-
 > Given one image, decide whether it is a **REAL photo** or a **PHOTO OF A SCREEN** (a "recapture").
 
 ---
