@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+venv/
+env/
+dataset/
+dataset_resized/
+*.zip
+report*.pdf
+ASSIGNMENT.pdf
+temp_screenshot.jpg

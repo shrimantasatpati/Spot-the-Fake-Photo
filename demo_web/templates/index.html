@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot the Fake Photo - Live Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #00e676;
+        }
+        #video-container {
+            position: relative;
+            width: 640px;
+            height: 480px;
+            border: 4px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #000;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .real {
+            color: #00e676;
+            border-left: 5px solid #00e676;
+        }
+        .fake {
+            color: #ff1744;
+            border-left: 5px solid #ff1744;
+        }
+        #stats {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #aaaaaa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Spot the Fake Photo - Live Demo</h1>
+    
+    <div id="video-container">
+        <video id="video" autoplay playsinline></video>
+        <div id="overlay" class="real">Initializing...</div>
+    </div>
+    
+    <div id="stats">Latency: -- ms</div>
+
+    <!-- Hidden canvas for capturing frames -->
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const overlay = document.getElementById('overlay');
+        const stats = document.getElementById('stats');
+
+        // Access webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                // Start prediction loop once video is playing
+                video.onloadedmetadata = () => {
+                    setInterval(predictFrame, 500); // 2 FPS to not overload local server
+                };
+            })
+            .catch(err => {
+                console.error("Error accessing webcam: ", err);
+                overlay.innerText = "Webcam Error";
+            });
+
+        async function predictFrame() {
+            // Draw current video frame to canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Get base64 JPEG from canvas
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: dataUrl })
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    console.error(result.error);
+                    return;
+                }
+
+                // Update UI
+                if (result.is_screen) {
+                    overlay.innerText = `FAKE (Screen) - ${(result.probability * 100).toFixed(1)}%`;
+                    overlay.className = 'fake';
+                } else {
+                    overlay.innerText = `REAL - ${((1 - result.probability) * 100).toFixed(1)}%`;
+                    overlay.className = 'real';
+                }
+                stats.innerText = `Latency: ${result.latency_ms.toFixed(1)} ms`;
+
+            } catch (error) {
+                console.error("Prediction failed: ", error);
+            }
+        }
+    </script>
+</body>
+</html>
