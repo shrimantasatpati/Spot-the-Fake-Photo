@@ -11,7 +11,7 @@ from PIL import Image
 app = Flask(__name__)
 
 # Load model globally
-MODEL_PATH = '../model.pth'
+MODEL_PATH = 'model.pth'
 device = torch.device("cpu")
 model = None
 
